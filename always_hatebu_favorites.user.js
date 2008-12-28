@@ -86,7 +86,7 @@
             div.setAttribute("id", "gm_always_hatebu_favorites");
             div.setAttribute("style", "display:block; position:fixed; bottom:0px; left:0px; z-index:500;  width:" + 16 * icons_per_line + "px; text-align:left;");
 
-            data.bookmarks.map(function(b){
+            Array.forEach(data.bookmarks, function(b){
                 bm_users.push(b.user)
             });
 
