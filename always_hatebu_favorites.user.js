@@ -18,14 +18,15 @@
 
 	if(!username){
 	    GM_xmlhttpRequest({method: "GET",
-			       url: url,
-			       onload: function(res) {
+                               url: url,
+                               onload: function(res) {
 				   var html = createHTMLDocumentByString(res.responseText);
 				   var username = $X('//div[@id="navigation"]//a', html)[0].firstChild.title;
+
 				   if(username) {
 				       GM_setValue('username', username);
 				   }
-			       }
+                               }
 			      });
 	}
 
@@ -39,12 +40,12 @@
 	var url = "http://b.hatena.ne.jp/" + username + "/favorite";
 
 	GM_xmlhttpRequest({method: "GET",
-			   url: url,
-			   onload: function(res) {
+                           url: url,
+                           onload: function(res) {
 			       var expire = new Date(new Date().getTime() + CACHE_EXPIRE);
 			       var favorites = {
-			           favorites: [],
-			           expire: expire
+				   favorites: [],
+				   expire: expire
 			       };
 			       var html = createHTMLDocumentByString(res.responseText);
 			       var data = $X('//div[@class="hatena-module hatena-module-profile"]//ul//a[@class="profile-icon"]', html);
