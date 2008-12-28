@@ -13,8 +13,8 @@
     var CACHE_EXPIRE = 24 * 60 * 60 * 1000;
 
     function getUsername() {
-	var url = "http://b.hatena.ne.jp/my"
-	    var username = GM_getValue('username');
+	var url = "http://b.hatena.ne.jp/my";
+	var username = GM_getValue('username');
 
 	if(!username){
 	    GM_xmlhttpRequest({method: "GET",
@@ -159,3 +159,4 @@
     GM_registerMenuCommand('AlwaysHatebuFavorites - update favorites', updateFavorites);
     GM_registerMenuCommand('AlwaysHatebuFavorites - clear cache', clearCache);
 })();
+
