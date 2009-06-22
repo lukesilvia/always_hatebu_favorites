@@ -150,6 +150,11 @@
     }
 
     // main
+    // http://d.hatena.ne.jp/os0x/20090522/chrome2
+    if (window != window.parent) {
+        return; //if frame
+    }
+
     if(!document.body || !getUsername()) return;
 
     GM_xmlhttpRequest({method: "GET",
