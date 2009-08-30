@@ -158,7 +158,7 @@
     if(!document.body || !getUsername()) return;
 
     GM_xmlhttpRequest({method: "GET",
-                       url: 'http://b.hatena.ne.jp/entry/json/' + location.href.replace(/#/g, "%23"),
+                       url: 'http://b.hatena.ne.jp/entry/jsonlite/' + location.href.replace(/#/g, "%23"),
                        onload: showFavorites});
 
     // Commands
