@@ -6,6 +6,9 @@
 // @exclude      http://*.google.*/
 // @exclude      http://b.hatena.ne.jp/*
 // @require      http://gist.github.com/3242.txt
+// @require      http://gist.github.com/raw/283040/da3c24326fcb54b9aa70b04d831584410dde8474/createDocumentFromString.js
+// ==/UserScript==
+
 // ==/UserScript==
 
 (function() {
@@ -20,7 +23,7 @@
             GM_xmlhttpRequest({method: "GET",
                                url: url,
                                onload: function(res) {
-                                   var html = createHTMLDocumentByString(res.responseText);
+                                   var html = createDocumentFromString(res.responseText);
                                    var username = $X('//div[@id="navigation"]//a', html)[0].firstChild.title;
 
                                    if(username) {
@@ -47,7 +50,7 @@
                                    favorites: [],
                                    expire: expire
                                };
-                               var html = createHTMLDocumentByString(res.responseText);
+                               var html = createDocumentFromString(res.responseText);
                                var data = $X('//div[@class="hatena-module hatena-module-profile"]//ul//a[@class="profile-icon"]', html);
 
                                Array.forEach(data, function(a) {
@@ -118,35 +121,6 @@
         });
 
         return result;
-    }
-
-    // from autopagerize
-    // http://userscripts.org/scripts/show/8551
-    function createHTMLDocumentByString(str) {
-        if (document.documentElement.nodeName != 'HTML') {
-            return new DOMParser().parseFromString(str, 'application/xhtml+xml')
-        }
-        var html = strip_html_tag(str)
-        var htmlDoc = document.implementation.createDocument(null, 'html', null)
-        var fragment = createDocumentFragmentByString(html)
-        try {
-            fragment = htmlDoc.adoptNode(fragment)
-        } catch(e) {
-            fragment = htmlDoc.importNode(fragment, true)
-        }
-        htmlDoc.documentElement.appendChild(fragment)
-        return htmlDoc
-    }
-
-    function strip_html_tag(str) {
-        var re = /^[\s\S]*?<html(?:[ \t\r\n][^>]*)?>|<\/html[ \t\r\n]*>[\w\W]*$/ig
-        return str.replace(re, '')
-    }
-
-    function createDocumentFragmentByString(str) {
-        var range = document.createRange()
-        range.setStartAfter(document.body)
-        return range.createContextualFragment(str)
     }
 
     // main
