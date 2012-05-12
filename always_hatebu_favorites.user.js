@@ -5,8 +5,6 @@
 // @include      http://*
 // @exclude      http://*.google.*/
 // @exclude      http://b.hatena.ne.jp/*
-// @require      http://gist.github.com/3242.txt
-// @require      http://gist.github.com/raw/283040/da3c24326fcb54b9aa70b04d831584410dde8474/createDocumentFromString.js
 // ==/UserScript==
 
 // ==/UserScript==
@@ -23,8 +21,7 @@
             GM_xmlhttpRequest({method: "GET",
                                url: url,
                                onload: function(res) {
-                                   var html = createDocumentFromString(res.responseText);
-                                   var username = $X('//div[@id="navigation"]//a', html)[0].firstChild.title;
+                                   var username = res.finalUrl.split("/").reverse()[1];
 
                                    if(username) {
                                        GM_setValue('username', username);
@@ -40,7 +37,7 @@
         var username = getUsername();
         if(!username) return;
 
-        var url = "http://b.hatena.ne.jp/" + username + "/favorite";
+        var url = "http://b.hatena.ne.jp/" + username + "/follow.json";
 
         GM_xmlhttpRequest({method: "GET",
                            url: url,
@@ -50,11 +47,10 @@
                                    favorites: [],
                                    expire: expire
                                };
-                               var html = createDocumentFromString(res.responseText);
-                               var data = $X('//div[@class="hatena-module hatena-module-profile"]//ul//a[@class="profile-icon"]', html);
+                               var data = eval(res.responseText);
 
                                Array.forEach(data, function(a) {
-                                   favorites['favorites'].push(a.firstChild.title);
+                                   favorites['favorites'].push(a.name);
                                });
 
                                GM_setValue('favorites', favorites.toSource());
